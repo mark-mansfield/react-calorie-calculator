@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import axios from 'axios';
 import { debounce } from 'lodash';
 import Fab from '@material-ui/core/Fab';
 import AddIcon from '@material-ui/icons/Add';
@@ -43,25 +44,19 @@ class App extends Component {
 
   // TODO switch out this mocking scenario
   handleSearch = debounce(text => {
-    const mockSearchResult = {
-      food_name: 'salmon salad',
-      serving_unit: 'cup',
-      serving_weight_grams: 407.01,
-      serving_qty: 1,
-      nf_calories: 389.27,
-      serving_size: 1.5,
-      meal_type: 'lunch',
-      thumb: 'https://d2xdmhkmkbyw75.cloudfront.net/3121_thumb.jpg'
+    const options = {
+      headers: { 'x-app-id': '8f344a08', 'x-app-key': '2e9e174ee9d6b855ab32fdbe36b242fb', 'x-remote-user-id': '0' }
     };
+    axios.get(`https://trackapi.nutritionix.com/v2/search/instant?query=` + text, options).then(res => {
+      console.log(res);
+      this.setState({
+        hasSearchResults: true
+      });
 
-    this.setState({
-      hasSearchResults: true,
-      searchTem: text
+      this.setState(prevState => ({
+        searchResults: [...prevState.searchResults, res.data]
+      }));
     });
-
-    this.setState(prevState => ({
-      searchResults: [...prevState.searchResults, mockSearchResult]
-    }));
 
     console.log(this.state.searchResults);
   }, 1000);
