@@ -30,8 +30,11 @@ class App extends Component {
       searchDetailsSelected: false,
       searchDetailItem: [],
       searchResults: [],
-      searchTerm: ''
+      searchTerm: '',
+      consumed: 0,
+      dailyGoal: 1500
     };
+    this.addItem = this.addItem.bind(this);
   }
 
   // TODO switch out this mocking scenario
@@ -53,41 +56,54 @@ class App extends Component {
     });
 
     this.setState(prevState => ({
-      searchResults: [...prevState.searchResults, JSON.stringify(mockSearchResult)]
+      searchResults: [...prevState.searchResults, mockSearchResult]
     }));
+
+    console.log(this.state.searchResults);
   }, 1000);
 
   openSearchDetails = idx => {
     console.log(`search item ${idx} selected`);
     this.setState({
       searchDetailsSelected: true,
-      searchDetailItem: [`searchitem ${idx}`]
+      searchDetailItem: [this.state.searchResults]
     });
-
   };
 
   closeSearchDetails = () => {
-    console.log(`search item closed`);
+    console.log(`search details closed`);
     this.setState({
       searchDetailsSelected: false,
       searchDetailItem: []
     });
   };
 
-  componentDidUpdate() {
-    if (this.state.searchDetailsSelected) {
-      console.log(this.state);
-    }
-  }
+  closeSearchResults = () => {
+    console.log(`search results closed`);
+    this.setState({
+      searchDetailsSelected: false,
+      hasSearchResults: false,
+      searchDetailItem: []
+    });
+  };
+
+  // componentDidUpdate() {
+  //   if (this.state.searchDetailsSelected) {
+  //     console.log(this.state);
+  //   }
+  // }
 
   addItem(item) {
     console.log('adding item');
     console.log(item);
+    this.setState({
+      consumed: item.total_calories
+    });
+    this.closeSearchResults();
   }
 
   componentWillMount() {
     window.addEventListener('resize', this.handleWindowSizeChange);
-    console.log('component did mount');
   }
 
   componentWillUnmount() {
@@ -114,7 +130,7 @@ class App extends Component {
               <Paginator />
             </nav>
             <article>
-              <Calories />
+              <Calories consumed={this.state.consumed} dailyGoal={this.state.dailyGoal} />
             </article>
             <section>
               <DailyFoodList />
@@ -127,8 +143,8 @@ class App extends Component {
                 data={this.state.searchDetailItem}
                 onSearchItemAdded={this.addItem}
                 onClose={this.closeSearchDetails}
-              />)
-             }
+              />
+            )}
             <div className="add-button">
               <Fab aria-label="add" color="primary">
                 <AddIcon />

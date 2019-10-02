@@ -7,8 +7,15 @@ class QuantitySelector extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      qty: 0
+      qty: 1,
+      serving_unit: ''
     };
+  }
+
+  componentDidMount() {
+    this.setState({
+      serving_unit: this.props.serving_unit
+    });
   }
 
   handleIncrement = () => {
@@ -50,7 +57,7 @@ class QuantitySelector extends React.Component {
           </div>
         </div>
 
-        <small className="serving-unit">slice</small>
+        <small className="serving-unit">{this.state.serving_unit}</small>
       </div>
     );
   }

@@ -151,13 +151,17 @@
     width: 100%;
   }
 
+  .modal__content > div > button {
+    margin-top: 20px;
+  }
+
   .padding-bottom-20 {
     padding-bottom: 20px;
   }
 
   .calculated-weight .large-text,
   .calculated-calories .large-text {
-    font-size: 2rem;
+    font-size: 1.5rem;
     display: block;
   }
 

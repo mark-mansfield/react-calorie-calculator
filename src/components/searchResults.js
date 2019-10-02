@@ -5,9 +5,12 @@ import Img from '../assets/avatar.png';
 class SearchResults extends React.Component {
   constructor(props) {
     super(props);
+    this.state = {
+      data: this.props.data
+    };
   }
 
-  data = JSON.parse(JSON.stringify(this.props.data));
+
 
   launchPop(idx) {
     console.log(idx);
@@ -15,6 +18,11 @@ class SearchResults extends React.Component {
   }
 
   render() {
+    // TODOuse this code to loop over real data
+    // const data = this.props.data;
+    // data.forEach(item => {
+    //   console.log(item);
+    // });
     return (
       <div>
         <Fade in={true}>
