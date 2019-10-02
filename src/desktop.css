@@ -1,0 +1,267 @@
+/* desktop css */
+/* catches ipad landscape and greater */
+@media (min-width: 44rem) {
+  .header {
+    display: flex;
+    justify-content: center;
+    flex-flow: column;
+    align-items: center;
+    height: 128px;
+    background-color: var(--blue-violet);
+    padding: 8px;
+    box-sizing: border-box;
+  }
+
+  .header__search-bar {
+    position: relative;
+    z-index: 50000;
+    width: 420px;
+    height: 48px;
+    background-color: #ffffff;
+    border-radius: 3px;
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+  }
+
+  .search-bar-icon {
+    padding: 10px;
+  }
+
+  .search-bar-input {
+    position: relative;
+    z-index: 50000;
+    width: 14.75rem;
+    font-size: 1rem;
+    font-weight: 600;
+    font-style: normal;
+    font-stretch: normal;
+    line-height: 1.5;
+    letter-spacing: 0.15px;
+    color: rgba(0, 0, 0, 0.87);
+    border: 1px solid black;
+  }
+
+  .search-results {
+    position: fixed;
+    top: 0;
+    left: 0;
+    background-color: rgba(0, 0, 0, 0.5);
+    border: none;
+    width: 100vw;
+    height: 100vh;
+    overflow: scroll;
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    padding-top: 70px;
+  }
+
+  .search-results__content {
+    width: 420px;
+    border-radius: 3px;
+    height: auto;
+    min-height: 500px;
+    background-color: white;
+  }
+
+  .search-results__content > * {
+    margin-top: 15px;
+  }
+
+  .search-results__category-title {
+    margin: 15px;
+  }
+
+  .section {
+    display: flex;
+    justify-content: flex-start;
+  }
+
+  .sidebar {
+    width: 320px;
+    background-color: #f5f5f5;
+    height: calc(100vh - 128px);
+  }
+
+  .sidebar > div > span {
+    color: grey;
+  }
+
+  .main {
+    width: calc(100vw - 320px);
+  }
+
+  .user {
+    width: 290px; /* sidebar width - padding = 320 - 30 = 290px */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 15px;
+    padding: 15px;
+    padding-bottom: 35px;
+    flex-flow: row wrap;
+    border-bottom: var(--border-style);
+  }
+
+  .user > div > h2 {
+    margin: 0;
+  }
+
+  .user .user__avatar {
+    width: 112px;
+    height: 112px;
+    display: grid;
+    place-items: center;
+    background-color: dodgerblue;
+    background-image: url('../src/assets/avatar.png');
+    background-position: center;
+    background-size: cover;
+    border-radius: 66px;
+    border: var(--border-style);
+  }
+
+  .user .user__name {
+    padding-top: 15px;
+    font-size: 1.6rem;
+    width: 320px;
+    text-align: center;
+  }
+  .user .user__name .surname {
+    display: inline;
+  }
+
+  .user .user__weight,
+  .user .user__height {
+    display: flex;
+    flex-flow: column;
+    justify-content: center;
+    width: 56px;
+    height: 56px;
+    text-align: center;
+    background-color: var(--black-50);
+    border-radius: 28px;
+    color: white;
+    font-size: 0.9rem;
+  }
+
+  /* flex re-ordering and spacing  */
+  .user > .order-item:nth-of-type(4) {
+    order: 2;
+  }
+
+  .user > .order-item:nth-of-type(1) {
+    order: 2;
+  }
+
+  .user > .order-item:nth-of-type(2) {
+    order: 4;
+  }
+
+  .user .user__avatar {
+    margin: 0 20px;
+  }
+
+  .paginator {
+    width: 420px;
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    margin-top: 20px;
+    padding-left: 10px;
+    padding-right: 10px;
+    color: white;
+  }
+
+  .paginator__current {
+    font-size: 2rem;
+    font-weight: 500;
+  }
+
+  .paginator__previous > svg,
+  .paginator__next > svg {
+    color: white;
+    font-size: 24px;
+  }
+
+  .calories {
+    padding-bottom: 15px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .calories__consumed .data,
+  .calories__goal .data {
+    font-size: 1.5rem;
+  }
+
+  .calories__goal {
+    text-align: right;
+  }
+
+  small {
+    color: grey;
+    font-size: 0.8rem;
+    font-weight: 400;
+  }
+
+  .meal-periods {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 20px;
+  }
+
+  .meal-periods .meal-period {
+    flex: 1;
+    text-align: center;
+    text-transform: capitalize;
+    font-weight: 600;
+    font-size: 1.2rem;
+  }
+
+  .foodlist__item {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 72px;
+  }
+
+  .foodlist__item-image {
+    max-width: 72px;
+    display: grid;
+    place-items: center;
+    background-color: rgb(0, 174, 255);
+    margin-left: 15px;
+  }
+
+  .foodlist__item > * {
+    height: 72px;
+    display: flex;
+    flex: 1;
+    flex-flow: column;
+    justify-content: center;
+    font-size: 1.2rem;
+    font-weight: 600;
+  }
+
+  .foodlist__item > .foodlist__item-name {
+    flex: 2;
+    border-bottom: var(--border-style);
+    text-transform: capitalize;
+    margin-left: 15px;
+  }
+
+  .foodlist__item-info {
+    align-items: flex-end;
+    padding-right: 45px;
+    border-bottom: var(--border-style);
+  }
+
+  .foodlist__item-name > span,
+  .foodlist__item-info > span {
+    padding-bottom: 5px;
+  }
+}

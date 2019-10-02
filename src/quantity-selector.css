@@ -1,0 +1,29 @@
+.quantity-selector {
+  width: 120px;
+  height: 56px;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  background-color: #e8e8e8;
+  border-bottom: 2px solid var(--blue-violet);
+  color: black;
+}
+
+.title {
+  color: var(--blue-violet);
+  text-transform: capitalize;
+}
+
+.increment > svg,
+.de-increment > svg {
+  font-size: 1rem;
+  width: 16px;
+  height: 16px;
+}
+
+.serving-unit {
+  position: relative;
+  top: 5px;
+  padding-left: 12px;
+  color: var(--blue-violet);
+}

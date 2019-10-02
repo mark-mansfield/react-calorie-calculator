@@ -1,22 +1,37 @@
-.App {
-  text-align: center;
+@import url('./phone.css');
+@import url('./desktop.css');
+:root {
+  --blue-violet: #6200ee;
+  --black-50: rgba(0, 0, 0, 0.5);
+  --border-style: 1px solid rgb(230, 230, 230);
 }
 
-.App-logo {
-  height: 40vmin;
+::placeholder {
+  color: black;
 }
 
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
+html {
+  font-size: 100%;
 }
 
-.App-link {
-  color: #09d3ac;
+body {
+  font-size: 16px;
+  font-size: 1rem;
+}
+
+.add-button {
+  position: fixed;
+  bottom: 15px;
+  right: 15px;
+}
+
+article {
+  border-bottom: var(--border-style);
+}
+
+h2 {
+  font-size: 1.2rem;
+}
+
+@media (min-width: 20rem) {
 }

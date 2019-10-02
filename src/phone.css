@@ -1,0 +1,346 @@
+/* mobile  css */
+/* all phones and ipad in portrait mode */
+@media (max-width: 48rem) {
+  .header {
+    height: 144px;
+    background-color: var(--blue-violet);
+    padding: 8px;
+    box-sizing: border-box;
+  }
+
+  .header__search-bar {
+    position: relative;
+    z-index: 50000;
+    width: 100%;
+    height: 48px;
+    background-color: #ffffff;
+    border-radius: 3px;
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+  }
+
+  .search-bar-icon {
+    padding: 10px;
+  }
+
+  .search-bar-input {
+    width: 14.75rem;
+    font-size: 1rem;
+    font-weight: 500;
+    font-style: normal;
+    font-stretch: normal;
+    line-height: 1.5;
+    letter-spacing: 0.15px;
+    color: rgba(0, 0, 0, 0.87);
+  }
+
+  .search-results {
+    position: fixed;
+    z-index: 2;
+    top: 0;
+    left: 0;
+    background-color: rgba(0, 0, 0, 0.5);
+    border: none;
+    width: calc(100vw - 16px);
+    height: 100vh;
+    overflow: scroll;
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    padding: 8px;
+    padding-top: 50px;
+  }
+
+  .search-results__content {
+    width: 100%;
+    border-radius: 3px;
+    height: auto;
+    min-height: 500px;
+    background-color: white;
+    margin-top: 15px;
+    box-shadow: 0 2px 4px -1px rgba(0, 0, 0, 0.2), 0 1px 10px 0 rgba(0, 0, 0, 0.12), 0 4px 5px 0 rgba(0, 0, 0, 0.14);
+  }
+
+  .search-results__category-title {
+    margin: 15px;
+    font-size: 12px;
+    font-weight: 700;
+    text-transform: uppercase;
+    color: grey;
+  }
+
+  .search-result__item {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 72px;
+    font-size: 1.2rem;
+    font-weight: 600;
+  }
+
+  /* active event give ui a little adjustment */
+  .search-result__item:active {
+    background-color: rgba(61, 61, 61, 0.123);
+    border: var(--border-style);
+  }
+
+  .search-result__item-image {
+    flex: 1;
+    max-width: 72px;
+    height: 72px;
+    display: grid;
+    place-items: center;
+    padding-right: 10px;
+  }
+
+  .search-result__item-image > img {
+    width: 40px;
+    height: 40px;
+  }
+
+  .search-result__item-name {
+    flex: 2;
+    height: 72px;
+    display: flex;
+    flex-flow: column;
+    justify-content: center;
+    border-bottom: var(--border-style);
+    text-transform: capitalize;
+  }
+
+  .search-result__item-name > span {
+    padding-bottom: 5px;
+  }
+  /* probably a better way to do this */
+  /* custom borders for last item in each cat */
+  .search-result__category > div:last-child,
+  .search-result__category > div:last-child .search-result__item-name {
+    border-bottom: var(--border-style);
+  }
+
+  /* last cat last item has no border */
+  /* probably a better way to do this */
+  .search-results__content:last-child > .search-result__category > div:last-child,
+  .search-results__content:last-child > .search-result__category > div:last-child .search-result__item-name {
+    border: none;
+  }
+
+  .add-item-modal {
+    width: calc(100vw - 16px);
+    display: flex;
+    flex-flow: column;
+    justify-content: flex-start;
+    align-items: center;
+    background-color: #fafafa;
+    border-radius: 5px;
+    border: none;
+    height: auto;
+    color: inherit;
+  }
+
+  .add-item-modal__row {
+    margin: 15px;
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    border-bottom: var(--border-style);
+  }
+
+  .modal__content {
+    width: 100%;
+  }
+
+  .padding-bottom-20 {
+    padding-bottom: 20px;
+  }
+
+  .calculated-weight .large-text,
+  .calculated-calories .large-text {
+    font-size: 2rem;
+    display: block;
+  }
+
+  .MuiInputBase-root {
+    width: calc(100vw - 46px) !important;
+  }
+
+  .modal {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .modal__row-item > img {
+    width: 80px;
+    height: 80px;
+  }
+
+  .modal__row-item .item-name {
+    font-size: 1.3rem;
+    color: black;
+  }
+
+  .last-child {
+    flex-wrap: wrap;
+    justify-content: flex-end;
+  }
+  .user {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    margin-top: 15px;
+  }
+
+  .user > div > h2 {
+    margin: 0;
+  }
+
+  .user .user__avatar {
+    width: 56px;
+    height: 56px;
+    display: grid;
+    place-items: center;
+    background-color: dodgerblue;
+    background-image: url('../src/assets/avatar.png');
+    background-position: center;
+    background-size: cover;
+    border-radius: 28px;
+    margin-left: 5px;
+  }
+
+  .user .user__name {
+    flex: 2;
+    font-size: 1.45rem;
+    color: white;
+    padding-left: 15px;
+  }
+
+  .user .user__name .surname {
+    display: none;
+  }
+
+  .user .user__weight,
+  .user .user__height {
+    display: flex;
+    flex-flow: column;
+    justify-content: center;
+    width: 56px;
+    height: 56px;
+    text-align: center;
+    background-color: var(--black-50);
+    border-radius: 28px;
+    color: white;
+    font-size: 0.9rem;
+  }
+
+  .user .user__weight {
+    position: relative;
+    right: 15px;
+  }
+
+  .user .user__height {
+    position: relative;
+    right: 5px;
+  }
+
+  .paginator {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-top: 20px;
+    padding-left: 10px;
+    padding-right: 10px;
+  }
+
+  .paginator__current {
+    font-size: 1.3rem;
+    font-weight: 500;
+  }
+
+  .paginator__previous > svg,
+  .paginator__next > svg {
+    color: var(--blue-violet);
+    font-size: 24px;
+  }
+
+  .calories {
+    padding: 15px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .calories__consumed .data,
+  .calories__goal .data {
+    font-size: 1.5rem;
+  }
+
+  .calories__goal {
+    text-align: right;
+  }
+
+  small {
+    color: grey;
+    font-size: 0.8rem;
+    font-weight: 400;
+  }
+
+  .meal-periods {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 20px;
+  }
+
+  .meal-periods .meal-period {
+    flex: 1;
+    text-align: center;
+    text-transform: capitalize;
+    font-weight: 600;
+    font-size: 1.2rem;
+  }
+
+  .foodlist__item {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 72px;
+  }
+
+  .foodlist__item-image {
+    max-width: 72px;
+    display: grid;
+    place-items: center;
+    background-color: rgb(0, 174, 255);
+    margin-left: 15px;
+  }
+
+  .foodlist__item > * {
+    height: 72px;
+    display: flex;
+    flex: 1;
+    flex-flow: column;
+    justify-content: center;
+    font-size: 1.2rem;
+    font-weight: 600;
+  }
+
+  .foodlist__item > .foodlist__item-name {
+    flex: 2;
+    border-bottom: var(--border-style);
+    text-transform: capitalize;
+  }
+
+  .foodlist__item-info {
+    align-items: flex-end;
+    padding-right: 15px;
+    border-bottom: var(--border-style);
+  }
+
+  .foodlist__item-name > span,
+  .foodlist__item-info > span {
+    padding-bottom: 5px;
+  }
+}
