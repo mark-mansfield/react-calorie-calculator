@@ -18,8 +18,23 @@ export default function calories(props) {
       </div>
       <LinearProgress className="progress-bar" variant="determinate" color="primary" value={80} style={{}} />
 
-      <span style={{ fontWeight: '700', fontSize: '14px', position: 'relative', top: '10px', marginLeft: 'calc(80% - 15px)' }}>80%</span>
-      <MealPeriods />
+      <span
+        style={{
+          fontWeight: '700',
+          fontSize: '14px',
+          position: 'relative',
+          top: '10px',
+          marginLeft: 'calc(80% - 15px)'
+        }}
+      >
+        80%
+      </span>
+      <MealPeriods
+        breakfast={props.breakfastCalories}
+        lunch={props.lunchCalories}
+        dinner={props.dinnerCalories}
+        snack={props.snackCalories}
+      />
     </div>
   );
 }

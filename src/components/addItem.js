@@ -41,6 +41,7 @@ class AddItem extends React.Component {
       nf_calories: 0,
       serving_size: 0,
       meal_type: '',
+      meal_type_selected: 'Breakfast',
       thumb: '',
       total_grams: 0,
       total_calories: 0
@@ -66,7 +67,8 @@ class AddItem extends React.Component {
   }
 
   handleMealTimeChange = event => {
-    this.setState({ meal_time: event.target.value });
+    console.log(event.target.value);
+    this.setState({ meal_type_selected: event.target.value, meal_type: event.target.value });
   };
 
   handleClose = () => {
@@ -135,19 +137,22 @@ class AddItem extends React.Component {
               </div>
               <div className="add-item-modal__row padding-bottom-20 last-child">
                 <div className="day-selector">
+                  <div className="category-title" style={{ margin: '0', marginBottom: '10px' }}>
+                    add to today
+                  </div>
                   <Select
-                    value={this.state.meal_type}
+                    value={this.state.meal_type_selected}
                     onChange={this.handleMealTimeChange}
                     input={<BootstrapInput name="mealTime" id="customized-select" />}
-                    placeholder="breakfast"
+                    placeholder="Breakfast"
                   >
                     <MenuItem value="">
                       <em>None</em>
                     </MenuItem>
                     <MenuItem value={'Breakfast'}>Breakfast</MenuItem>
-                    <MenuItem value={'lunch'}>Lunch</MenuItem>
+                    <MenuItem value={'Lunch'}>Lunch</MenuItem>
                     <MenuItem value={'Dinner'}>Dinner</MenuItem>
-                    <MenuItem value={'Snacks'}>Snacks</MenuItem>
+                    <MenuItem value={'Snack'}>Snack</MenuItem>
                   </Select>
                 </div>
                 <Button

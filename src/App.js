@@ -32,7 +32,11 @@ class App extends Component {
       searchResults: [],
       searchTerm: '',
       consumed: 0,
-      dailyGoal: 1500
+      dailyGoal: 1500,
+      breakfastCalories: 0,
+      lunchCalories: 0,
+      dinnerCalories: 0,
+      snackCalories: 0
     };
     this.addItem = this.addItem.bind(this);
   }
@@ -87,17 +91,35 @@ class App extends Component {
     });
   };
 
-  // componentDidUpdate() {
-  //   if (this.state.searchDetailsSelected) {
-  //     console.log(this.state);
-  //   }
-  // }
-
   addItem(item) {
     console.log('adding item');
-    console.log(item);
+    console.log(item.meal_type_selected);
+    switch (item.meal_type_selected) {
+      case 'Breakfast':
+        console.log('updating breakfast calories');
+        this.setState({ breakfastCalories: this.state.breakfastCalories + item.total_calories });
+        break;
+
+      case 'Lunch':
+        console.log('updating lunch calories');
+        this.setState({ lunchCalories: this.state.lunchCalories + item.total_calories });
+        break;
+
+      case 'Dinner':
+        console.log('updating dinner calories');
+        this.setState({ dinnerCalories: this.state.dinnerCalories + item.total_calories });
+        break;
+
+      case 'Snack':
+        console.log('updating snack calories');
+        this.setState({ snackCalories: this.state.snackCalories + item.total_calories });
+        break;
+
+      default:
+        break;
+    }
     this.setState({
-      consumed: item.total_calories
+      consumed: this.state.consumed + item.total_calories
     });
     this.closeSearchResults();
   }
@@ -130,7 +152,14 @@ class App extends Component {
               <Paginator />
             </nav>
             <article>
-              <Calories consumed={this.state.consumed} dailyGoal={this.state.dailyGoal} />
+              <Calories
+                consumed={this.state.consumed}
+                dailyGoal={this.state.dailyGoal}
+                breakfastCalories={this.state.breakfastCalories}
+                lunchCalories={this.state.lunchCalories}
+                dinnerCalories={this.state.dinnerCalories}
+                snackCalories={this.state.snackCalories}
+              />
             </article>
             <section>
               <DailyFoodList />

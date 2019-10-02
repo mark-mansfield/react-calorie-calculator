@@ -29,7 +29,7 @@ class SearchResults extends React.Component {
           <div className="search-results">
             <div className="search-results__content">
               <div className="search-result__category">
-                <div className="search-results__category-title">Common</div>
+                <div className="category-title">Common</div>
                 <div className="search-result__item" onClick={() => this.launchPop(1)}>
                   <div className="search-result__item-image">
                     <img src={Img} alt="select this item" title="select this item" />
@@ -57,7 +57,7 @@ class SearchResults extends React.Component {
               </div>
               {/* branded */}
               <div className="search-result__category">
-                <div className="search-results__category-title">Branded</div>
+                <div className="category-title">Branded</div>
                 <button>launch popup</button>
                 <div className="search-result__item" onClick={() => this.launchPop(4)}>
                   <div className="search-result__item-image">
