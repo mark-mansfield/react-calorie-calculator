@@ -4,10 +4,19 @@ import Icon from '@material-ui/icons/Search';
 class Search extends React.Component {
   constructor(props) {
     super(props);
+    this.textInput = React.createRef();
   }
 
   handleChange(event) {
     this.props.onSearch(event.target.value);
+  }
+
+  componentWillReceiveProps(props) {
+    console.log('component was updated');
+    console.log(props);
+    if (props.focused) {
+      this.textInput.current.focus();
+    }
   }
 
   render() {
@@ -21,6 +30,7 @@ class Search extends React.Component {
           </div>
 
           <input
+            ref={this.textInput}
             className="search-bar-input"
             type="text"
             placeholder="Search foods..."

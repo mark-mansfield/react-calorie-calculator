@@ -29,6 +29,7 @@ class App extends Component {
       width: window.innerWidth,
       hasSearchResults: false,
       searchDetailsSelected: false,
+      searchFocused: false,
       searchDetailItem: [],
       searchResults: [],
       searchResultsCommon: [],
@@ -39,16 +40,19 @@ class App extends Component {
       breakfastCalories: 0,
       lunchCalories: 0,
       dinnerCalories: 0,
-      snackCalories: 0
+      snackCalories: 0,
+      dailyIntake: []
     };
     this.addItem = this.addItem.bind(this);
+    this.handelFocusSearch = this.handelFocusSearch.bind(this);
   }
 
+  // required to get access to nutrition-ix API
   custom_headers = {
     headers: { 'x-app-id': '8f344a08', 'x-app-key': '2e9e174ee9d6b855ab32fdbe36b242fb', 'x-remote-user-id': '0' }
   };
 
-  // TODO switch out this mocking scenario
+  // prevents call to server every for every char entered in search bar.
   handleSearch = debounce(text => {
     axios.get(`https://trackapi.nutritionix.com/v2/search/instant?query=` + text, this.custom_headers).then(res => {
       this.setState(prevState => ({
@@ -75,7 +79,6 @@ class App extends Component {
   };
 
   getCommonFoodItemDetails(food_name) {
-    console.log('looking up common food item');
     axios
       .post(`https://trackapi.nutritionix.com/v2/natural/nutrients`, { query: food_name }, this.custom_headers)
       .then(res => {
@@ -92,7 +95,6 @@ class App extends Component {
           total_grams: res.data.foods[0].serving_weight_grams,
           total_calories: res.data.foods[0].nf_calories
         };
-        console.log(itemDetail);
         this.setState({
           searchDetailsSelected: true,
           searchDetailItem: itemDetail
@@ -172,10 +174,29 @@ class App extends Component {
       default:
         break;
     }
+
+    // why does this work
+    const newDailyIntake = this.state.dailyIntake;
+    newDailyIntake.push(item);
+
+    // when docs say to do it here
     this.setState({
       consumed: this.state.consumed + item.total_calories
+      // dailyIntake: newDailyIntake
     });
     this.closeSearchResults();
+  }
+
+  handelFocusSearch() {
+    console.log('focusing on search input');
+    this.setState({
+      searchFocused: true
+    });
+  }
+
+  componentDidUpdate() {
+    console.log('updating component');
+    console.log(this.state);
   }
 
   componentWillMount() {
@@ -198,7 +219,7 @@ class App extends Component {
         <ThemeProvider theme={theme}>
           <div className="App">
             <header className="header">
-              <Search onSearch={this.handleSearch} />
+              <Search onSearch={this.handleSearch} focused={this.state.searchFocused} />
               <UserDetails />
             </header>
             <nav>
@@ -215,7 +236,7 @@ class App extends Component {
               />
             </article>
             <section>
-              <DailyFoodList />
+              <DailyFoodList dailyIntake={this.state.dailyIntake} />
             </section>
             {this.state.hasSearchResults && (
               <SearchResults
@@ -232,7 +253,7 @@ class App extends Component {
               />
             )}
             <div className="add-button">
-              <Fab aria-label="add" color="primary">
+              <Fab aria-label="add" color="primary" onClick={this.handelFocusSearch}>
                 <AddIcon />
               </Fab>
             </div>

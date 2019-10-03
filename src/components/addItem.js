@@ -80,7 +80,8 @@ class AddItem extends React.Component {
     console.log(qty);
     this.setState({
       total_grams: this.state.serving_weight_grams * qty,
-      total_calories: this.state.nf_calories * qty
+      total_calories: this.state.nf_calories * qty,
+      serving_qty: qty
     });
 
     // this.item.item_qty = qty;

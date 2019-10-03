@@ -2,11 +2,12 @@ import React from 'react';
 import MealPeriods from './mealPeriods';
 import LinearProgress from '@material-ui/core/LinearProgress';
 export default function calories(props) {
+  console.log((props.consumed / props.dailyGoal) * 100);
   return (
     <div style={{ padding: '15px' }}>
       <div className="calories">
         <div className="calories__consumed">
-          <span className="data">{props.consumed}</span>
+          <span className="data">{Math.round(props.consumed)}</span>
           <br />
           <small>consumed</small>
         </div>
@@ -16,7 +17,13 @@ export default function calories(props) {
           <small>daily goal</small>
         </div>
       </div>
-      <LinearProgress className="progress-bar" variant="determinate" color="primary" value={80} style={{}} />
+      <LinearProgress
+        className="progress-bar"
+        variant="determinate"
+        color="primary"
+        value={Math.round((props.consumed / props.dailyGoal) * 100)}
+        style={{}}
+      />
 
       <span
         style={{
@@ -24,10 +31,10 @@ export default function calories(props) {
           fontSize: '14px',
           position: 'relative',
           top: '10px',
-          marginLeft: 'calc(80% - 15px)'
+          marginLeft: Math.round((props.consumed / props.dailyGoal) * 100 - 2) + '%'
         }}
       >
-        80%
+        {Math.round((props.consumed / props.dailyGoal) * 100)}%
       </span>
       <MealPeriods
         breakfast={props.breakfastCalories}
