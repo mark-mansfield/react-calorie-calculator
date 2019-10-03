@@ -50,18 +50,19 @@ class AddItem extends React.Component {
 
   componentDidMount() {
     console.log('component did mount updating state');
-    const data = this.props.data[0];
+    console.log(this.props.data);
+    const data = this.props.data;
     this.setState({
-      food_name: data[0].food_name,
-      serving_unit: data[0].serving_unit,
-      serving_weight_grams: data[0].serving_weight_grams,
-      serving_qty: data[0].serving_qty,
-      nf_calories: data[0].nf_calories,
-      serving_size: data[0].serving_size,
-      meal_type: data[0].meal_type,
-      thumb: data[0].thumb,
-      total_grams: data[0].serving_weight_grams,
-      total_calories: data[0].nf_calories
+      food_name: data.food_name,
+      serving_unit: data.serving_unit,
+      serving_weight_grams: data.serving_weight_grams,
+      serving_qty: data.serving_qty,
+      nf_calories: data.nf_calories,
+      serving_size: data.serving_size,
+      meal_type: data.meal_type,
+      thumb: data.thumb,
+      total_grams: data.serving_weight_grams,
+      total_calories: data.nf_calories
     });
     this.handleAddItem = this.handleAddItem.bind(this);
   }

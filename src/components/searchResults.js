@@ -6,23 +6,22 @@ class SearchResults extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      data: this.props.data
+      common: this.props.common
     };
   }
 
+  launchPop(name, id) {
+    this.props.onSearchItemSelected(name, id);
+  }
 
-
-  launchPop(idx) {
-    console.log(idx);
-    this.props.onSearchItemSelected(idx);
+  onComponentDidUpdate() {
+    console.log('component was updated');
   }
 
   render() {
-    // TODOuse this code to loop over real data
-    // const data = this.props.data;
-    // data.forEach(item => {
-    //   console.log(item);
-    // });
+    // console.log(this.props.common[1]);
+    console.log(this.props.branded[1]);
+
     return (
       <div>
         <Fade in={true}>
@@ -30,74 +29,37 @@ class SearchResults extends React.Component {
             <div className="search-results__content">
               <div className="search-result__category">
                 <div className="category-title">Common</div>
-                <div className="search-result__item" onClick={() => this.launchPop(1)}>
-                  <div className="search-result__item-image">
-                    <img src={Img} alt="select this item" title="select this item" />
+
+                {this.props.common.map((item, index) => (
+                  <div key={index} className="search-result__item" onClick={() => this.launchPop(item.food_name, null)}>
+                    <div className="search-result__item-image">
+                      <img src={item.photo.thumb} alt="select this item" title="select this item" />
+                    </div>
+                    <div className="search-result__item-name">
+                      <span>{item.food_name}</span>
+                    </div>
                   </div>
-                  <div className="search-result__item-name">
-                    <span>pizza</span>
-                  </div>
-                </div>
-                <div className="search-result__item" onClick={() => this.launchPop(2)}>
-                  <div className="search-result__item-image">
-                    <img src={Img} alt="select this item" title="select this item" />
-                  </div>
-                  <div className="search-result__item-name">
-                    <span>pizza</span>
-                  </div>
-                </div>
-                <div className="search-result__item" onClick={() => this.launchPop(3)}>
-                  <div className="search-result__item-image">
-                    <img src={Img} alt="select this item" title="select this item" />
-                  </div>
-                  <div className="search-result__item-name">
-                    <span>pizza</span>
-                  </div>
-                </div>
+                ))}
               </div>
               {/* branded */}
               <div className="search-result__category">
                 <div className="category-title">Branded</div>
-                <button>launch popup</button>
-                <div className="search-result__item" onClick={() => this.launchPop(4)}>
-                  <div className="search-result__item-image">
-                    <img src={Img} alt="select this item" title="select this item" />
+
+                {this.props.branded.map((item, index) => (
+                  <div
+                    key={index}
+                    className="search-result__item"
+                    onClick={() => this.launchPop(item.food_name, item.nix_item_id)}
+                  >
+                    <div className="search-result__item-image">
+                      <img src={item.photo.thumb} alt="select this item" title="select this item" />
+                    </div>
+                    <div className="search-result__item-name">
+                      <span>{item.food_name.substr(0, 23)}...</span>
+                      <small>{item.brand_name}</small>
+                    </div>
                   </div>
-                  <div className="search-result__item-name">
-                    hard salami and mild c.....
-                    <small>cheesewich</small>
-                  </div>
-                </div>
-                <div className="search-result__item" onClick={() => this.launchPop(5)}>
-                  <div className="search-result__item-image">
-                    {' '}
-                    <img src={Img} alt="select this item" title="select this item" />
-                  </div>
-                  <div className="search-result__item-name">
-                    hard salami and mild c.....
-                    <small>cheesewich</small>
-                  </div>
-                </div>
-                <div className="search-result__item" onClick={() => this.launchPop(6)}>
-                  <div className="search-result__item-image">
-                    {' '}
-                    <img src={Img} alt="select this item" title="select this item" />
-                  </div>
-                  <div className="search-result__item-name">
-                    hard salami and mild c.....
-                    <small>cheesewich</small>
-                  </div>
-                </div>
-                <div className="search-result__item" onClick={() => this.launchPop(7)}>
-                  <div className="search-result__item-image">
-                    {' '}
-                    <img src={Img} alt="select this item" title="select this item" />
-                  </div>
-                  <div className="search-result__item-name">
-                    hard salami and mild c.....
-                    <small>cheesewich</small>
-                  </div>
-                </div>
+                ))}
               </div>
             </div>
           </div>

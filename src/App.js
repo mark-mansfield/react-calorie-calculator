@@ -31,6 +31,8 @@ class App extends Component {
       searchDetailsSelected: false,
       searchDetailItem: [],
       searchResults: [],
+      searchResultsCommon: [],
+      searchResultsBranded: [],
       searchTerm: '',
       consumed: 0,
       dailyGoal: 1500,
@@ -42,32 +44,89 @@ class App extends Component {
     this.addItem = this.addItem.bind(this);
   }
 
+  custom_headers = {
+    headers: { 'x-app-id': '8f344a08', 'x-app-key': '2e9e174ee9d6b855ab32fdbe36b242fb', 'x-remote-user-id': '0' }
+  };
+
   // TODO switch out this mocking scenario
   handleSearch = debounce(text => {
-    const options = {
-      headers: { 'x-app-id': '8f344a08', 'x-app-key': '2e9e174ee9d6b855ab32fdbe36b242fb', 'x-remote-user-id': '0' }
-    };
-    axios.get(`https://trackapi.nutritionix.com/v2/search/instant?query=` + text, options).then(res => {
-      console.log(res);
+    axios.get(`https://trackapi.nutritionix.com/v2/search/instant?query=` + text, this.custom_headers).then(res => {
+      this.setState(prevState => ({
+        searchResultsCommon: res.data.common,
+        searchResultsBranded: res.data.branded
+      }));
+
       this.setState({
         hasSearchResults: true
       });
-
-      this.setState(prevState => ({
-        searchResults: [...prevState.searchResults, res.data]
-      }));
     });
-
-    console.log(this.state.searchResults);
   }, 1000);
 
-  openSearchDetails = idx => {
-    console.log(`search item ${idx} selected`);
-    this.setState({
-      searchDetailsSelected: true,
-      searchDetailItem: [this.state.searchResults]
-    });
+  openSearchDetails = (food_name, id = null) => {
+    switch (id) {
+      case null:
+        this.getCommonFoodItemDetails(food_name);
+        break;
+
+      default:
+        this.getBrandedFoodItemDetails(id);
+        break;
+    }
   };
+
+  getCommonFoodItemDetails(food_name) {
+    console.log('looking up common food item');
+    axios
+      .post(`https://trackapi.nutritionix.com/v2/natural/nutrients`, { query: food_name }, this.custom_headers)
+      .then(res => {
+        console.log(res);
+        const itemDetail = {
+          food_name: res.data.foods[0].food_name,
+          serving_unit: res.data.foods[0].serving_unit,
+          serving_weight_grams: res.data.foods[0].serving_weight_grams,
+          serving_qty: res.data.foods[0].serving_qty,
+          nf_calories: res.data.foods[0].nf_calories,
+          // serving_size: res.data[0].serving_size,
+          meal_type: res.data.foods[0].meal_type,
+          thumb: res.data.foods[0].photo.thumb,
+          total_grams: res.data.foods[0].serving_weight_grams,
+          total_calories: res.data.foods[0].nf_calories
+        };
+        console.log(itemDetail);
+        this.setState({
+          searchDetailsSelected: true,
+          searchDetailItem: itemDetail
+        });
+      });
+  }
+
+  getBrandedFoodItemDetails(nx_item_id) {
+    console.log('looking up common food item');
+    console.log(this.custom_headers);
+    console.log(nx_item_id);
+    axios
+      .get(`https://trackapi.nutritionix.com/v2/search/item?nix_item_id=` + nx_item_id, this.custom_headers)
+      .then(res => {
+        console.log(res);
+        const itemDetail = {
+          food_name: res.data.foods[0].food_name,
+          serving_unit: res.data.foods[0].serving_unit,
+          serving_weight_grams: res.data.foods[0].serving_weight_grams,
+          serving_qty: res.data.foods[0].serving_qty,
+          nf_calories: res.data.foods[0].nf_calories,
+          // serving_size: res.data[0].serving_size,
+          meal_type: res.data.foods[0].meal_type,
+          thumb: res.data.foods[0].photo.thumb,
+          total_grams: res.data.foods[0].serving_weight_grams,
+          total_calories: res.data.foods[0].nf_calories
+        };
+        console.log(itemDetail);
+        this.setState({
+          searchDetailsSelected: true,
+          searchDetailItem: itemDetail
+        });
+      });
+  }
 
   closeSearchDetails = () => {
     console.log(`search details closed`);
@@ -134,7 +193,6 @@ class App extends Component {
   render() {
     const { width } = this.state;
     const isMobile = width <= 768;
-
     if (isMobile) {
       return (
         <ThemeProvider theme={theme}>
@@ -160,7 +218,11 @@ class App extends Component {
               <DailyFoodList />
             </section>
             {this.state.hasSearchResults && (
-              <SearchResults data={this.state.searchResults} onSearchItemSelected={this.openSearchDetails} />
+              <SearchResults
+                common={this.state.searchResultsCommon}
+                branded={this.state.searchResultsBranded}
+                onSearchItemSelected={this.openSearchDetails}
+              />
             )}
             {this.state.searchDetailsSelected && (
               <AddItem

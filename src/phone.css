@@ -44,7 +44,7 @@
     border: none;
     width: calc(100vw - 16px);
     height: 100vh;
-    overflow: scroll;
+
     display: flex;
     justify-content: center;
     align-items: flex-start;
@@ -56,8 +56,9 @@
     width: 100%;
     border-radius: 3px;
     height: auto;
-    min-height: 500px;
+    max-height: 91vh;
     background-color: white;
+    overflow: scroll;
     margin-top: 15px;
     box-shadow: 0 2px 4px -1px rgba(0, 0, 0, 0.2), 0 1px 10px 0 rgba(0, 0, 0, 0.12), 0 4px 5px 0 rgba(0, 0, 0, 0.14);
   }
