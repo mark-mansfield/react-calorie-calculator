@@ -11,9 +11,13 @@ class Search extends React.Component {
     this.props.onSearch(event.target.value);
   }
 
+  onComponentDidUpdate() {
+    console.log('Search component updated:');
+  }
+
   componentWillReceiveProps(props) {
-    console.log('component was updated');
-    console.log(props);
+    console.log('Search component received props:');
+
     if (props.focused) {
       this.textInput.current.focus();
     }

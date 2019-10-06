@@ -12,6 +12,10 @@ class QuantitySelector extends React.Component {
     };
   }
 
+  onComponentDidUpdate() {
+    console.log('QuantitySelector component updated:');
+  }
+
   componentDidMount() {
     this.setState({
       serving_unit: this.props.serving_unit

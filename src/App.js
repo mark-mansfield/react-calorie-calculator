@@ -5,20 +5,24 @@ import Fab from '@material-ui/core/Fab';
 import AddIcon from '@material-ui/icons/Add';
 import { createMuiTheme } from '@material-ui/core/styles';
 import { ThemeProvider } from '@material-ui/styles';
-
+import moment from 'moment';
 import Search from './components/search';
 import SearchResults from './components/searchResults';
 import UserDetails from './components/userDetails';
-import Paginator from './components/paginator';
+import HistoryNavigator from './components/historyNavigator';
 import Calories from './components/calories';
 import DailyFoodList from './components/dailyFoodList';
 import AddItem from './components/addItem';
-
 import './App.css';
+
+// TODO remove mock Data
+import { mockSearchData, detailsData } from './mockData';
+import DataPoints from './dataPoints';
 
 const theme = createMuiTheme({
   palette: {
-    primary: { 500: '#6200ee' }
+    primary: { 500: '#6200ee' },
+    secondary: { A400: '#ffffff' }
   }
 });
 
@@ -35,17 +39,102 @@ class App extends Component {
       searchResultsCommon: [],
       searchResultsBranded: [],
       searchTerm: '',
-      consumed: 0,
       dailyGoal: 1500,
-      breakfastCalories: 0,
-      lunchCalories: 0,
-      dinnerCalories: 0,
-      snackCalories: 0,
-      dailyIntake: []
+      dailyIntake: [],
+      dataPoints: DataPoints,
+      intakeHistory: [
+        'today',
+        'yesterday',
+        moment(Date.now())
+          .subtract(2, 'days')
+          .format('DD,MMM')
+          .split(',')
+          .join(' ')
+      ],
+      //  0 = today
+      intakeHistoryPosition: 0
     };
+
+    // update date  properties
+    this.state.dataPoints.data_points[0].date = 'Today';
+    this.state.dataPoints.data_points[1].date = 'Yesterday';
+    this.state.dataPoints.data_points[2].date = moment(Date.now())
+      .subtract(2, 'days')
+      .format('DD,MMM')
+      .split(',')
+      .join(' ');
+
+    // we need  extra props for calculating totals
+    this.state.dataPoints.data_points.forEach((item, index) => {
+      let tmpObj = {
+        total_grams: 0,
+        total_calories: 0,
+        breakfastCalories: 0,
+        lunchCalories: 0,
+        dinnerCalories: 0,
+        snackCalories: 0,
+        ...this.state.dataPoints.data_points[index]
+      };
+      tmpObj.intake_list.forEach(item => {
+        tmpObj.total_grams += item.serving_weight_grams;
+        tmpObj.total_calories += item.nf_calories;
+        switch (item.meal_type) {
+          case 'breakfast':
+            tmpObj.breakfastCalories += item.nf_calories;
+            break;
+
+          case 'lunch':
+            tmpObj.lunchCalories += item.nf_calories;
+            break;
+
+          case 'dinner':
+            tmpObj.dinnerCalories += item.nf_calories;
+            break;
+
+          case 'snack':
+            tmpObj.snackCalories += item.nf_calories;
+            break;
+
+          default:
+            break;
+        }
+      });
+      tmpObj.breakfastCalories = Math.round(tmpObj.breakfastCalories);
+      tmpObj.lunchCalories = Math.round(tmpObj.lunchCalories);
+      tmpObj.dinnerCalories = Math.round(tmpObj.dinnerCalories);
+      tmpObj.snackCalories = Math.round(tmpObj.snackCalories);
+      tmpObj.total_grams = Math.round(tmpObj.total_grams);
+      tmpObj.total_calories = Math.round(tmpObj.total_calories);
+      this.state.dataPoints.data_points[index] = tmpObj;
+    });
+
+    this.navigateHistory = this.navigateHistory.bind(this);
     this.addItem = this.addItem.bind(this);
     this.handelFocusSearch = this.handelFocusSearch.bind(this);
   }
+
+  componentDidUpdate() {
+    console.log('App component updated:');
+    console.log(this.state);
+  }
+
+  componentWillMount() {
+    window.addEventListener('resize', this.handleWindowSizeChange);
+  }
+
+  // TODO remove this before submitting
+  componentDidMount() {
+    console.log('add component did mount');
+    console.log(this.state);
+  }
+
+  componentWillUnmount() {
+    window.removeEventListener('resize', this.handleWindowSizeChange);
+  }
+
+  handleWindowSizeChange = () => {
+    this.setState({ width: window.innerWidth });
+  };
 
   // required to get access to nutrition-ix API
   custom_headers = {
@@ -54,15 +143,17 @@ class App extends Component {
 
   // prevents call to server every for every char entered in search bar.
   handleSearch = debounce(text => {
-    axios.get(`https://trackapi.nutritionix.com/v2/search/instant?query=` + text, this.custom_headers).then(res => {
-      this.setState(prevState => ({
-        searchResultsCommon: res.data.common,
-        searchResultsBranded: res.data.branded
-      }));
-
-      this.setState({
-        hasSearchResults: true
-      });
+    // axios.get(`https://trackapi.nutritionix.com/v2/search/instant?query=` + text, this.custom_headers).then(res => {
+    //   this.setState(prevState => ({
+    //     searchResultsCommon: res.data.common,
+    //     searchResultsBranded: res.data.branded
+    //   }));
+    //   this.setState({ hasSearchResults: true });
+    // });
+    this.setState({
+      searchResultsCommon: this.mockData.common,
+      searchResultsBranded: this.mockData.branded,
+      hasSearchResults: true
     });
   }, 1000);
 
@@ -82,13 +173,13 @@ class App extends Component {
     axios
       .post(`https://trackapi.nutritionix.com/v2/natural/nutrients`, { query: food_name }, this.custom_headers)
       .then(res => {
-        console.log(res);
         const itemDetail = {
           food_name: res.data.foods[0].food_name,
           serving_unit: res.data.foods[0].serving_unit,
           serving_weight_grams: res.data.foods[0].serving_weight_grams,
           serving_qty: res.data.foods[0].serving_qty,
           nf_calories: res.data.foods[0].nf_calories,
+          // TODO  investigate serving size variable, delete in not used
           // serving_size: res.data[0].serving_size,
           meal_type: res.data.foods[0].meal_type,
           thumb: res.data.foods[0].photo.thumb,
@@ -103,13 +194,10 @@ class App extends Component {
   }
 
   getBrandedFoodItemDetails(nx_item_id) {
-    console.log('looking up common food item');
-    console.log(this.custom_headers);
-    console.log(nx_item_id);
     axios
       .get(`https://trackapi.nutritionix.com/v2/search/item?nix_item_id=` + nx_item_id, this.custom_headers)
       .then(res => {
-        console.log(res);
+        // console.log(res);
         const itemDetail = {
           food_name: res.data.foods[0].food_name,
           serving_unit: res.data.foods[0].serving_unit,
@@ -122,7 +210,7 @@ class App extends Component {
           total_grams: res.data.foods[0].serving_weight_grams,
           total_calories: res.data.foods[0].nf_calories
         };
-        console.log(itemDetail);
+        // console.log(itemDetail);
         this.setState({
           searchDetailsSelected: true,
           searchDetailItem: itemDetail
@@ -131,7 +219,6 @@ class App extends Component {
   }
 
   closeSearchDetails = () => {
-    console.log(`search details closed`);
     this.setState({
       searchDetailsSelected: false,
       searchDetailItem: []
@@ -139,7 +226,6 @@ class App extends Component {
   };
 
   closeSearchResults = () => {
-    console.log(`search results closed`);
     this.setState({
       searchDetailsSelected: false,
       hasSearchResults: false,
@@ -148,68 +234,68 @@ class App extends Component {
   };
 
   addItem(item) {
-    console.log('adding item');
-    console.log(item.meal_type_selected);
-    switch (item.meal_type_selected) {
-      case 'Breakfast':
-        console.log('updating breakfast calories');
-        this.setState({ breakfastCalories: this.state.breakfastCalories + item.total_calories });
+    const newDataPointsObj = { data_points: [...this.state.dataPoints.data_points] };
+    const newDataPoint = { ...this.state.dataPoints.data_points[this.state.intakeHistoryPosition] };
+
+
+    switch (item.meal_type) {
+      case 'breakfast':
+        newDataPoint.breakfastCalories += item.total_calories;
         break;
 
-      case 'Lunch':
-        console.log('updating lunch calories');
-        this.setState({ lunchCalories: this.state.lunchCalories + item.total_calories });
+      case 'lunch':
+        newDataPoint.lunchCalories += item.total_calories;
         break;
 
-      case 'Dinner':
-        console.log('updating dinner calories');
-        this.setState({ dinnerCalories: this.state.dinnerCalories + item.total_calories });
+      case 'dinner':
+        newDataPoint.dinnerCalories += item.total_calories;
         break;
 
-      case 'Snack':
-        console.log('updating snack calories');
-        this.setState({ snackCalories: this.state.snackCalories + item.total_calories });
+      case 'snack':
+        newDataPoint.snackCalories += item.total_calories;
         break;
 
       default:
         break;
     }
 
-    // why does this work
-    const newDailyIntake = this.state.dailyIntake;
-    newDailyIntake.push(item);
+    newDataPointsObj.data_points[this.state.intakeHistoryPosition] = newDataPoint;
+    newDataPointsObj.data_points[this.state.intakeHistoryPosition].total_calories += item.total_calories;
+    newDataPointsObj.data_points[this.state.intakeHistoryPosition].intake_list.push(item);
 
-    // when docs say to do it here
     this.setState({
-      consumed: this.state.consumed + item.total_calories
-      // dailyIntake: newDailyIntake
+      dataPoints: newDataPointsObj
     });
+
     this.closeSearchResults();
   }
 
   handelFocusSearch() {
-    console.log('focusing on search input');
     this.setState({
       searchFocused: true
     });
   }
 
-  componentDidUpdate() {
-    console.log('updating component');
-    console.log(this.state);
+  navigateHistory(action) {
+    if (action === '+') {
+      if (this.state.intakeHistoryPosition < this.state.intakeHistory.length - 1) {
+        this.setState(prevState => ({
+          intakeHistoryPosition: this.state.intakeHistoryPosition + 1
+        }));
+      }
+    }
+    if (action === '-') {
+      if (this.state.intakeHistoryPosition > 0) {
+        this.setState(prevState => ({
+          intakeHistoryPosition: this.state.intakeHistoryPosition - 1
+        }));
+      }
+    }
   }
 
-  componentWillMount() {
-    window.addEventListener('resize', this.handleWindowSizeChange);
-  }
-
-  componentWillUnmount() {
-    window.removeEventListener('resize', this.handleWindowSizeChange);
-  }
-
-  handleWindowSizeChange = () => {
-    this.setState({ width: window.innerWidth });
-  };
+  // TODO remove mock Data
+  mockData = mockSearchData;
+  detailsData = detailsData;
 
   render() {
     const { width } = this.state;
@@ -223,25 +309,31 @@ class App extends Component {
               <UserDetails />
             </header>
             <nav>
-              <Paginator />
+              <HistoryNavigator
+                navigate={this.navigateHistory}
+                dailyIntake={this.state.dataPoints.data_points[this.state.intakeHistoryPosition].date}
+              />
             </nav>
             <article>
               <Calories
-                consumed={this.state.consumed}
+                consumed={this.state.dataPoints.data_points[this.state.intakeHistoryPosition].total_calories}
                 dailyGoal={this.state.dailyGoal}
-                breakfastCalories={this.state.breakfastCalories}
-                lunchCalories={this.state.lunchCalories}
-                dinnerCalories={this.state.dinnerCalories}
-                snackCalories={this.state.snackCalories}
+                breakfastCalories={
+                  this.state.dataPoints.data_points[this.state.intakeHistoryPosition].breakfastCalories
+                }
+                lunchCalories={this.state.dataPoints.data_points[this.state.intakeHistoryPosition].lunchCalories}
+                dinnerCalories={this.state.dataPoints.data_points[this.state.intakeHistoryPosition].dinnerCalories}
+                snackCalories={this.state.dataPoints.data_points[this.state.intakeHistoryPosition].snackCalories}
               />
             </article>
             <section>
-              <DailyFoodList dailyIntake={this.state.dailyIntake} />
+              <DailyFoodList dailyIntake={this.state.dataPoints.data_points[this.state.intakeHistoryPosition]} />
             </section>
             {this.state.hasSearchResults && (
               <SearchResults
                 common={this.state.searchResultsCommon}
                 branded={this.state.searchResultsBranded}
+                onClose={this.closeSearchResults}
                 onSearchItemSelected={this.openSearchDetails}
               />
             )}
@@ -265,23 +357,49 @@ class App extends Component {
         <ThemeProvider theme={theme}>
           <div className="App">
             <header className="header">
-              <Search onSearch={this.handleSearch} />
+              <Search onSearch={this.handleSearch} focused={this.state.searchFocused} />
               <nav>
-                <Paginator />
+                <HistoryNavigator
+                  navigate={this.navigateHistory}
+                  dailyIntake={this.state.dataPoints.data_points[this.state.intakeHistoryPosition].date}
+                />
               </nav>
             </header>
             <section className="section">
               <article className="sidebar">
                 <UserDetails />
-                <Calories />
+                <Calories
+                  consumed={this.state.dataPoints.data_points[this.state.intakeHistoryPosition].total_calories}
+                  dailyGoal={this.state.dailyGoal}
+                  breakfastCalories={
+                    this.state.dataPoints.data_points[this.state.intakeHistoryPosition].breakfastCalories
+                  }
+                  lunchCalories={this.state.dataPoints.data_points[this.state.intakeHistoryPosition].lunchCalories}
+                  dinnerCalories={this.state.dataPoints.data_points[this.state.intakeHistoryPosition].dinnerCalories}
+                  snackCalories={this.state.dataPoints.data_points[this.state.intakeHistoryPosition].snackCalories}
+                />
               </article>
               <main className="main">
-                <DailyFoodList />
+                <DailyFoodList dailyIntake={this.state.dataPoints.data_points[this.state.intakeHistoryPosition]} />
               </main>
-              {this.state.hasSearchResults && <SearchResults data={this.state.searchResults} />}
+              {this.state.hasSearchResults && (
+                <SearchResults
+                  common={this.state.searchResultsCommon}
+                  branded={this.state.searchResultsBranded}
+                  onClose={this.closeSearchResults}
+                  onSearchItemSelected={this.openSearchDetails}
+                />
+              )}
+              {this.state.searchDetailsSelected && (
+                <AddItem
+                  data={this.state.searchDetailItem}
+                  onSearchItemAdded={this.addItem}
+                  onClose={this.closeSearchDetails}
+                />
+              )}
             </section>
             <div className="add-button">
-              <Fab aria-label="add" color="primary">
+              <Fab aria-label="add" color="primary" onClick={this.handelFocusSearch}>
                 <AddIcon />
               </Fab>
             </div>

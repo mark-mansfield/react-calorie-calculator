@@ -9,7 +9,6 @@ import MenuItem from '@material-ui/core/MenuItem';
 import Select from '@material-ui/core/Select';
 import InputBase from '@material-ui/core/InputBase';
 import QuantitySelector from './quantitySelector';
-import Img from '../assets/avatar.png';
 
 const BootstrapInput = withStyles(theme => ({
   input: {
@@ -18,6 +17,12 @@ const BootstrapInput = withStyles(theme => ({
     backgroundColor: '#e8e8e8',
     border: '1px solid #ced4da',
     fontSize: 16,
+    fontWeight: '500',
+    fontStyle: 'normal',
+    fontStretch: 'normal',
+    lineHeight: '1.5',
+    letterSpacing: '0.15px',
+    color: '#00000099',
     padding: '10px 26px 10px 12px',
     transition: theme.transitions.create(['border-color', 'box-shadow']),
     '&:focus': {
@@ -41,16 +46,17 @@ class AddItem extends React.Component {
       nf_calories: 0,
       serving_size: 0,
       meal_type: '',
-      meal_type_selected: 'Breakfast',
       thumb: '',
       total_grams: 0,
       total_calories: 0
     };
   }
 
+  onComponentDidUpdate() {
+    console.log('AddItem component updated:');
+  }
+
   componentDidMount() {
-    console.log('component did mount updating state');
-    console.log(this.props.data);
     const data = this.props.data;
     this.setState({
       food_name: data.food_name,
@@ -59,7 +65,7 @@ class AddItem extends React.Component {
       serving_qty: data.serving_qty,
       nf_calories: data.nf_calories,
       serving_size: data.serving_size,
-      meal_type: data.meal_type,
+      meal_type: 'breakfast',
       thumb: data.thumb,
       total_grams: data.serving_weight_grams,
       total_calories: data.nf_calories
@@ -68,8 +74,8 @@ class AddItem extends React.Component {
   }
 
   handleMealTimeChange = event => {
-    console.log(event.target.value);
-    this.setState({ meal_type_selected: event.target.value, meal_type: event.target.value });
+    // console.log(event.target.value);
+    this.setState({ meal_type: event.target.value });
   };
 
   handleClose = () => {
@@ -77,7 +83,7 @@ class AddItem extends React.Component {
   };
 
   handleUpdateQty = qty => {
-    console.log(qty);
+    // console.log(qty);
     this.setState({
       total_grams: this.state.serving_weight_grams * qty,
       total_calories: this.state.nf_calories * qty,
@@ -98,8 +104,6 @@ class AddItem extends React.Component {
   };
 
   render() {
-    console.log(`data received from parent nad placed into state `);
-    console.log(this.state);
     return (
       <Modal
         aria-labelledby="add-item-modal"
@@ -117,7 +121,7 @@ class AddItem extends React.Component {
         <Fade in={this.state.open}>
           <div className="add-item-modal">
             <div className="modal__content">
-              <div className="add-item-modal__row padding-bottom-20">
+              <div className="add-item-modal__row padding-bottom-16">
                 <div className="modal__row-item">
                   <img src={this.state.thumb} alt="item name" title="item name" />
                   <div className="item-name">{this.state.food_name}</div>
@@ -129,21 +133,21 @@ class AddItem extends React.Component {
               <div className="add-item-modal__row padding-bottom-20">
                 <QuantitySelector onUpdateQuantity={this.handleUpdateQty} serving_unit={this.state.serving_unit} />
                 <div className="calculated-weight">
-                  <span className="large-text">{this.state.total_grams}</span>
-                  <small>grams</small>
+                  <span className="large-text">{Math.round(this.state.total_grams)}</span>
+                  <span className="caption">grams</span>
                 </div>
                 <div className="calculated-calories">
-                  <span className="large-text">{this.state.total_calories}</span>
-                  <small>calories</small>
+                  <span className="large-text">{Math.round(this.state.total_calories)}</span>
+                  <span className="caption">calories</span>
                 </div>
               </div>
-              <div className="add-item-modal__row padding-bottom-20 last-child">
+              <div className="add-item-modal__row padding-bottom-16 last-child">
                 <div className="day-selector">
                   <div className="category-title" style={{ margin: '0', marginBottom: '10px' }}>
                     add to today
                   </div>
                   <Select
-                    value={this.state.meal_type_selected}
+                    value={this.state.meal_type}
                     onChange={this.handleMealTimeChange}
                     input={<BootstrapInput name="mealTime" id="customized-select" />}
                     placeholder="Breakfast"
@@ -151,10 +155,10 @@ class AddItem extends React.Component {
                     <MenuItem value="">
                       <em>None</em>
                     </MenuItem>
-                    <MenuItem value={'Breakfast'}>Breakfast</MenuItem>
-                    <MenuItem value={'Lunch'}>Lunch</MenuItem>
-                    <MenuItem value={'Dinner'}>Dinner</MenuItem>
-                    <MenuItem value={'Snack'}>Snack</MenuItem>
+                    <MenuItem value={'breakfast'}>Breakfast</MenuItem>
+                    <MenuItem value={'lunch'}>Lunch</MenuItem>
+                    <MenuItem value={'dinner'}>Dinner</MenuItem>
+                    <MenuItem value={'snack'}>Snack</MenuItem>
                   </Select>
                 </div>
                 <Button

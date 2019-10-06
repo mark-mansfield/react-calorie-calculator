@@ -4,24 +4,24 @@ export default function mealPeriods(props) {
   return (
     <div className="meal-periods">
       <div className="meal-period">
-        <span className="meal-period__title">{props.breakfast}</span>
+        <span className="meal-period__title">{Math.round(props.breakfast)}</span>
         <br />
-        <small>breakfast</small>
+        <small className="calories-small-font">breakfast</small>
       </div>
       <div className="meal-period">
-        <span className="meal-period__title">{props.lunch}</span>
+        <span className="meal-period__title">{Math.round(props.lunch)}</span>
         <br />
-        <small>lunch</small>
+        <small className="calories-small-font">lunch</small>
       </div>
       <div className="meal-period">
-        <span className="meal-period__title">{props.dinner}</span>
+        <span className="meal-period__title">{Math.round(props.dinner)}</span>
         <br />
-        <small>dinner</small>
+        <small className="calories-small-font">dinner</small>
       </div>
       <div className="meal-period">
-        <span className="meal-period__title">{props.snack}</span>
+        <span className="meal-period__title">{Math.round(props.snack)}</span>
         <br />
-        <small>snack</small>
+        <small className="calories-small-font">snack</small>
       </div>
     </div>
   );

@@ -1,6 +1,6 @@
 /* mobile  css */
 /* all phones and ipad in portrait mode */
-@media (max-width: 48rem) {
+@media (max-width: 44rem) {
   .header {
     height: 144px;
     background-color: var(--blue-violet);
@@ -24,9 +24,12 @@
     padding: 10px;
   }
 
+  .MuiSvgIcon-root {
+    width: 24px !important;
+    height: 24px !important;
+  }
   .search-bar-input {
     width: 14.75rem;
-    font-size: 1rem;
     font-weight: 500;
     font-style: normal;
     font-stretch: normal;
@@ -44,7 +47,6 @@
     border: none;
     width: calc(100vw - 16px);
     height: 100vh;
-
     display: flex;
     justify-content: center;
     align-items: flex-start;
@@ -52,23 +54,35 @@
     padding-top: 50px;
   }
 
+  .closeSearchResultsIcon-device {
+    display: flex;
+  }
+
+  .closeSearchResultsIcon-desktop {
+    display: none;
+  }
+
   .search-results__content {
     width: 100%;
     border-radius: 3px;
-    height: auto;
-    max-height: 91vh;
-    background-color: white;
+    max-height: 87%;
     overflow: scroll;
     margin-top: 15px;
     box-shadow: 0 2px 4px -1px rgba(0, 0, 0, 0.2), 0 1px 10px 0 rgba(0, 0, 0, 0.12), 0 4px 5px 0 rgba(0, 0, 0, 0.14);
   }
 
   .category-title {
-    margin: 15px;
     font-size: 12px;
-    font-weight: 700;
+    font-weight: 500;
+    font-style: normal;
+    font-stretch: normal;
+    line-height: 1.33;
+    letter-spacing: 2px;
     text-transform: uppercase;
-    color: grey;
+    color: #00000099;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
   }
 
   .search-result__item {
@@ -76,8 +90,11 @@
     justify-content: center;
     align-items: center;
     height: 72px;
-    font-size: 1.2rem;
-    font-weight: 600;
+    font-size: 16px;
+    font-weight: 500;
+    line-height: 1.5;
+    letter-spacing: 0.15px;
+    color: #000000de;
   }
 
   /* active event give ui a little adjustment */
@@ -98,6 +115,7 @@
   .search-result__item-image > img {
     width: 40px;
     height: 40px;
+    border-radius: 4px;
   }
 
   .search-result__item-name {
@@ -124,7 +142,7 @@
   /* probably a better way to do this */
   .search-results__content:last-child > .search-result__category > div:last-child,
   .search-results__content:last-child > .search-result__category > div:last-child .search-result__item-name {
-    border: none;
+    /* border: none; */
   }
 
   .add-item-modal {
@@ -148,6 +166,10 @@
     border-bottom: var(--border-style);
   }
 
+  .add-item-modal__row:last-child {
+    border: none;
+  }
+
   .modal__content {
     width: 100%;
   }
@@ -156,18 +178,29 @@
     margin-top: 20px;
   }
 
-  .padding-bottom-20 {
-    padding-bottom: 20px;
-  }
-
   .calculated-weight .large-text,
   .calculated-calories .large-text {
-    font-size: 1.5rem;
+    font-size: 24px;
+    font-weight: normal;
+    font-style: normal;
+    font-stretch: normal;
+    line-height: normal;
+    letter-spacing: normal;
+    text-align: right;
+    color: #000000de;
     display: block;
   }
 
   .MuiInputBase-root {
     width: calc(100vw - 46px) !important;
+    font-size: 14px !important;
+    font-weight: 500 !important;
+    font-style: normal !important;
+    font-stretch: normal !important;
+    line-height: 1.14 !important;
+    letter-spacing: 1.25px !important;
+    text-align: center !important;
+    color: #ffffff !important;
   }
 
   .modal {
@@ -177,19 +210,26 @@
   }
 
   .modal__row-item > img {
-    width: 80px;
-    height: 80px;
+    width: 64px;
+    height: 64px;
   }
 
   .modal__row-item .item-name {
-    font-size: 1.3rem;
-    color: black;
+    font-size: 24px;
+    font-weight: normal;
+    font-style: normal;
+    font-stretch: normal;
+    line-height: normal;
+    letter-spacing: normal;
+    color: #000000de;
+    text-transform: capitalize;
   }
 
   .last-child {
     flex-wrap: wrap;
     justify-content: flex-end;
   }
+
   .user {
     display: flex;
     justify-content: flex-start;
@@ -211,12 +251,11 @@
     background-position: center;
     background-size: cover;
     border-radius: 28px;
-    margin-left: 5px;
   }
 
   .user .user__name {
     flex: 2;
-    font-size: 1.45rem;
+    font-size: 20px;
     color: white;
     padding-left: 15px;
   }
@@ -236,7 +275,7 @@
     background-color: var(--black-50);
     border-radius: 28px;
     color: white;
-    font-size: 0.9rem;
+    font-size: 12px;
   }
 
   .user .user__weight {
@@ -244,23 +283,22 @@
     right: 15px;
   }
 
-  .user .user__height {
-    position: relative;
-    right: 5px;
-  }
-
   .paginator {
     display: flex;
     justify-content: space-between;
     align-items: flex-start;
     margin-top: 20px;
+    margin-bottom: 24px;
     padding-left: 10px;
     padding-right: 10px;
   }
 
   .paginator__current {
-    font-size: 1.3rem;
+    font-family: Roboto;
+    font-size: 20px;
     font-weight: 500;
+    letter-spacing: 0.25px;
+    color: #000000de;
   }
 
   .paginator__previous > svg,
@@ -270,7 +308,7 @@
   }
 
   .calories {
-    padding: 15px;
+    padding-bottom: 15px;
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -278,17 +316,18 @@
 
   .calories__consumed .data,
   .calories__goal .data {
-    font-size: 1.5rem;
+    font-family: Roboto;
+    font-size: 24px;
+    font-weight: normal;
+    font-style: normal;
+    font-stretch: normal;
+    line-height: normal;
+    letter-spacing: normal;
+    color: #000000de;
   }
 
   .calories__goal {
     text-align: right;
-  }
-
-  small {
-    color: grey;
-    font-size: 0.8rem;
-    font-weight: 400;
   }
 
   .meal-periods {
@@ -296,15 +335,17 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
-    margin-top: 20px;
+    margin-top: 25px;
+    padding-bottom: 15px;
   }
 
   .meal-periods .meal-period {
     flex: 1;
     text-align: center;
     text-transform: capitalize;
-    font-weight: 600;
-    font-size: 1.2rem;
+    letter-spacing: 0.25px;
+    font-weight: 500;
+    font-size: 20px;
   }
 
   .foodlist__item {
@@ -318,12 +359,12 @@
     max-width: 72px;
     display: grid;
     place-items: center;
-    margin-left: 15px;
   }
 
   .foodlist__item-image > img {
     width: 40px;
     height: 40px;
+    border-radius: 5px;
   }
 
   .foodlist__item > * {
@@ -333,13 +374,17 @@
     flex-flow: column;
     justify-content: center;
     font-size: 1rem;
-    font-weight: 600;
+    font-weight: 500;
   }
 
   .foodlist__item > .foodlist__item-name {
     flex: 2;
     border-bottom: var(--border-style);
     text-transform: capitalize;
+  }
+
+  .foodlist__item > .foodlist__item-name > small {
+    text-transform: lowercase;
   }
 
   .foodlist__item-info {

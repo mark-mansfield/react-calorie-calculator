@@ -1,34 +1,43 @@
 import React from 'react';
 import Fade from '@material-ui/core/Fade';
-import Img from '../assets/avatar.png';
+import CloseIcon from '@material-ui/icons/Close';
 
 class SearchResults extends React.Component {
   constructor(props) {
     super(props);
-    this.state = {
-      common: this.props.common
-    };
   }
 
   launchPop(name, id) {
     this.props.onSearchItemSelected(name, id);
   }
 
+  handleClose = () => {
+
+    this.props.onClose();
+  };
+
   onComponentDidUpdate() {
-    console.log('component was updated');
+    console.log('SearchResults component updated:');
   }
 
   render() {
-    // console.log(this.props.common[1]);
-    console.log(this.props.branded[1]);
 
     return (
       <div>
         <Fade in={true}>
           <div className="search-results">
+            <div className="closeSearchResultsIcon-desktop">
+              <CloseIcon onClick={this.handleClose} color="secondary" />
+            </div>
+
             <div className="search-results__content">
               <div className="search-result__category">
-                <div className="category-title">Common</div>
+                <div className="category-title" style={{ padding: '16px', textTransform: 'uppercase' }}>
+                  <div>Common</div>
+                  <div className="closeSearchResultsIcon-device">
+                    <CloseIcon onClick={this.handleClose} color="primary" />
+                  </div>
+                </div>
 
                 {this.props.common.map((item, index) => (
                   <div key={index} className="search-result__item" onClick={() => this.launchPop(item.food_name, null)}>
@@ -43,7 +52,9 @@ class SearchResults extends React.Component {
               </div>
               {/* branded */}
               <div className="search-result__category">
-                <div className="category-title">Branded</div>
+                <div className="category-title" style={{ padding: '16px', textTransform: 'uppercase' }}>
+                  Branded
+                </div>
 
                 {this.props.branded.map((item, index) => (
                   <div

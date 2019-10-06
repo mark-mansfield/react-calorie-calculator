@@ -1,27 +1,38 @@
 import React from 'react';
 import MealPeriods from './mealPeriods';
 import LinearProgress from '@material-ui/core/LinearProgress';
+
 export default function calories(props) {
-  console.log((props.consumed / props.dailyGoal) * 100);
+  let progress = (props.consumed / props.dailyGoal) * 100;
+  let cssLeftMargin = 0;
+  if (progress >= 100) {
+    progress = 100;
+    cssLeftMargin = 93;
+  } else {
+    cssLeftMargin = progress;
+  }
+
   return (
-    <div style={{ padding: '15px' }}>
+    <div style={{ paddingLeft: '15px', paddingRight: '15px' }}>
       <div className="calories">
         <div className="calories__consumed">
-          <span className="data">{Math.round(props.consumed)}</span>
+          <span className="data">
+            {Math.round(props.breakfastCalories + props.lunchCalories + props.dinnerCalories + props.snackCalories)}
+          </span>
           <br />
-          <small>consumed</small>
+          <small className="calories-small-font">consumed</small>
         </div>
         <div className="calories__goal">
           <span className="data">{props.dailyGoal}</span>
           <br />
-          <small>daily goal</small>
+          <small className="calories-small-font">daily goal</small>
         </div>
       </div>
       <LinearProgress
         className="progress-bar"
         variant="determinate"
         color="primary"
-        value={Math.round((props.consumed / props.dailyGoal) * 100)}
+        value={Math.round(progress)}
         style={{}}
       />
 
@@ -31,10 +42,10 @@ export default function calories(props) {
           fontSize: '14px',
           position: 'relative',
           top: '10px',
-          marginLeft: Math.round((props.consumed / props.dailyGoal) * 100 - 2) + '%'
+          marginLeft: Math.round(cssLeftMargin) + '%'
         }}
       >
-        {Math.round((props.consumed / props.dailyGoal) * 100)}%
+        {Math.round(progress)}%
       </span>
       <MealPeriods
         breakfast={props.breakfastCalories}

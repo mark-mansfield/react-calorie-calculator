@@ -17,12 +17,13 @@ html {
 body {
   font-size: 16px;
   font-size: 1rem;
+  font-family: Roboto;
 }
 
 .add-button {
   position: fixed;
-  bottom: 15px;
-  right: 15px;
+  bottom: 16px;
+  right: 16px;
 }
 
 article {
@@ -30,7 +31,61 @@ article {
 }
 
 h2 {
-  font-size: 1.2rem;
+  font-size: 20px;
+  letter-spacing: 0.25px;
+  font-weight: normal;
+}
+
+.caption {
+  font-size: 12px;
+  font-weight: normal;
+  font-style: normal;
+  font-stretch: normal;
+  line-height: 1.33;
+  letter-spacing: 0.4px;
+  text-align: right;
+  color: #00000099;
+}
+
+small {
+  font-size: 14px;
+  font-weight: normal;
+  font-style: normal;
+  font-stretch: normal;
+  line-height: 1.43;
+  letter-spacing: 0.25px;
+  color: #00000099;
+}
+
+.calories-small-font {
+  font-size: 14px;
+  font-weight: normal;
+  font-style: normal;
+  font-stretch: normal;
+  line-height: 1.43;
+  letter-spacing: 0.25px;
+  color: #00000099;
+}
+
+.search-bar-input {
+  border: none;
+  font-size: 1rem;
+}
+
+.search-results__content {
+  background-color: #fafafa;
+}
+
+.padding-bottom-16 {
+  padding-bottom: 16px;
+}
+
+.padding-bottom-20 {
+  padding-bottom: 20px;
+}
+
+.search-results:hover {
+  cursor: pointer;
 }
 
 @media (min-width: 20rem) {
