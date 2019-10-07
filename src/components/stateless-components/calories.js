@@ -4,6 +4,8 @@ import LinearProgress from '@material-ui/core/LinearProgress';
 
 export default function calories(props) {
   let progress = (props.consumed / props.dailyGoal) * 100;
+
+  // so we can move the percentage read out across in line with the progress bar
   let cssLeftMargin = 0;
   if (progress >= 100) {
     progress = 100;

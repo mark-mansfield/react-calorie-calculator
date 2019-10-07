@@ -1,27 +1,25 @@
-import React from 'react';
+import React, { PureComponent } from 'react';
 import Fade from '@material-ui/core/Fade';
 import CloseIcon from '@material-ui/icons/Close';
 
-class SearchResults extends React.Component {
-  constructor(props) {
-    super(props);
-  }
-
+class SearchResults extends PureComponent {
   launchPop(name, id) {
     this.props.onSearchItemSelected(name, id);
   }
 
   handleClose = () => {
-
     this.props.onClose();
   };
+
+  componentDidMount() {
+    console.log('SearchResults component did mount:');
+  }
 
   onComponentDidUpdate() {
     console.log('SearchResults component updated:');
   }
 
   render() {
-
     return (
       <div>
         <Fade in={true}>
@@ -29,8 +27,8 @@ class SearchResults extends React.Component {
             <div className="closeSearchResultsIcon-desktop">
               <CloseIcon onClick={this.handleClose} color="secondary" />
             </div>
-
             <div className="search-results__content">
+              {/* common */}
               <div className="search-result__category">
                 <div className="category-title" style={{ padding: '16px', textTransform: 'uppercase' }}>
                   <div>Common</div>
@@ -38,7 +36,6 @@ class SearchResults extends React.Component {
                     <CloseIcon onClick={this.handleClose} color="primary" />
                   </div>
                 </div>
-
                 {this.props.common.map((item, index) => (
                   <div key={index} className="search-result__item" onClick={() => this.launchPop(item.food_name, null)}>
                     <div className="search-result__item-image">

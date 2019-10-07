@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { PureComponent } from 'react';
 import { withStyles } from '@material-ui/core/styles';
 import Modal from '@material-ui/core/Modal';
 import Backdrop from '@material-ui/core/Backdrop';
@@ -34,7 +34,7 @@ const BootstrapInput = withStyles(theme => ({
   }
 }))(InputBase);
 
-class AddItem extends React.Component {
+class AddItem extends PureComponent {
   constructor(props) {
     super(props);
     this.state = {
@@ -74,7 +74,6 @@ class AddItem extends React.Component {
   }
 
   handleMealTimeChange = event => {
-    // console.log(event.target.value);
     this.setState({ meal_type: event.target.value });
   };
 
@@ -83,20 +82,14 @@ class AddItem extends React.Component {
   };
 
   handleUpdateQty = qty => {
-    // console.log(qty);
     this.setState({
       total_grams: this.state.serving_weight_grams * qty,
       total_calories: this.state.nf_calories * qty,
       serving_qty: qty
     });
-
-    // this.item.item_qty = qty;
-    // console.log(`quantity of item selected is ${qty}`);
   };
 
   handleAddItem = () => {
-    // console.log(`adding your item `);
-    // console.log(item);
     this.props.onSearchItemAdded(this.state);
     this.setState({
       open: false

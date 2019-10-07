@@ -1,14 +1,14 @@
-import React from 'react';
+import React, { PureComponent } from 'react';
 import Icon from '@material-ui/icons/Search';
 
-class Search extends React.Component {
+class Search extends PureComponent {
   constructor(props) {
     super(props);
     this.textInput = React.createRef();
   }
 
-  handleChange(event) {
-    this.props.onSearch(event.target.value);
+  componentDidMount() {
+    console.log('Search component did mount:');
   }
 
   onComponentDidUpdate() {
@@ -16,11 +16,13 @@ class Search extends React.Component {
   }
 
   componentWillReceiveProps(props) {
-    console.log('Search component received props:');
-
     if (props.focused) {
       this.textInput.current.focus();
     }
+  }
+
+  handleChange(event) {
+    this.props.onSearch(event.target.value);
   }
 
   render() {

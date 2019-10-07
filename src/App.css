@@ -1,5 +1,8 @@
-@import url('./phone.css');
-@import url('./desktop.css');
+@import url('./assets/css/phone-tmp.css') screen and (max-width: 767px);
+@import url('./assets/css/desktop-tmp.css') screen and (min-width: 768px);
+/* @import url('./assets/css/desktop-tmp.css') only screen and (max-width: 44rem); */
+@import url('./assets/css/quantity-selector.css');
+
 :root {
   --blue-violet: #6200ee;
   --black-50: rgba(0, 0, 0, 0.5);
@@ -18,6 +21,7 @@ body {
   font-size: 16px;
   font-size: 1rem;
   font-family: Roboto;
+  margin: 0;
 }
 
 .add-button {

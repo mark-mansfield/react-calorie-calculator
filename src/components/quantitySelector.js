@@ -1,9 +1,8 @@
-import React from 'react';
+import React, { PureComponent } from 'react';
 import DownIcon from '@material-ui/icons/KeyboardArrowDown';
 import UpIcon from '@material-ui/icons/KeyboardArrowUp';
-import '../quantity-selector.css';
 
-class QuantitySelector extends React.Component {
+class QuantitySelector extends PureComponent {
   constructor(props) {
     super(props);
     this.state = {
@@ -60,7 +59,6 @@ class QuantitySelector extends React.Component {
             </div>
           </div>
         </div>
-
         <small className="serving-unit">{this.state.serving_unit}</small>
       </div>
     );

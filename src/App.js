@@ -6,18 +6,18 @@ import AddIcon from '@material-ui/icons/Add';
 import { createMuiTheme } from '@material-ui/core/styles';
 import { ThemeProvider } from '@material-ui/styles';
 import moment from 'moment';
+
 import Search from './components/search';
 import SearchResults from './components/searchResults';
-import UserDetails from './components/userDetails';
-import HistoryNavigator from './components/historyNavigator';
-import Calories from './components/calories';
-import DailyFoodList from './components/dailyFoodList';
 import AddItem from './components/addItem';
-import './App.css';
 
-// TODO remove mock Data
-import { mockSearchData, detailsData } from './mockData';
-import DataPoints from './dataPoints';
+import UserDetails from './components/stateless-components/userDetails';
+import HistoryNavigator from './components/stateless-components/historyNavigator';
+import Calories from './components/stateless-components/calories';
+import DailyFoodList from './components/stateless-components/dailyFoodList';
+
+import DataPoints from './assets/mockData/dataPoints';
+import './App.css';
 
 const theme = createMuiTheme({
   palette: {
@@ -118,14 +118,9 @@ class App extends Component {
     console.log(this.state);
   }
 
-  componentWillMount() {
-    window.addEventListener('resize', this.handleWindowSizeChange);
-  }
-
-  // TODO remove this before submitting
   componentDidMount() {
-    console.log('add component did mount');
-    console.log(this.state);
+    console.log('App component did mount');
+    window.addEventListener('resize', this.handleWindowSizeChange);
   }
 
   componentWillUnmount() {
@@ -141,21 +136,21 @@ class App extends Component {
     headers: { 'x-app-id': '8f344a08', 'x-app-key': '2e9e174ee9d6b855ab32fdbe36b242fb', 'x-remote-user-id': '0' }
   };
 
-  // prevents call to server every for every char entered in search bar.
-  handleSearch = debounce(text => {
-    // axios.get(`https://trackapi.nutritionix.com/v2/search/instant?query=` + text, this.custom_headers).then(res => {
-    //   this.setState(prevState => ({
-    //     searchResultsCommon: res.data.common,
-    //     searchResultsBranded: res.data.branded
-    //   }));
-    //   this.setState({ hasSearchResults: true });
-    // });
+  launchSearchResults = () => {
     this.setState({
-      searchResultsCommon: this.mockData.common,
-      searchResultsBranded: this.mockData.branded,
       hasSearchResults: true
     });
-  }, 1000);
+  };
+  // prevents call to server every for every char entered in search bar.
+  handleSearch = debounce(text => {
+    axios.get(`https://trackapi.nutritionix.com/v2/search/instant?query=` + text, this.custom_headers).then(res => {
+      this.setState({
+        searchResultsCommon: res.data.common,
+        searchResultsBranded: res.data.branded,
+        hasSearchResults: true
+      });
+    });
+  }, 100);
 
   openSearchDetails = (food_name, id = null) => {
     switch (id) {
@@ -237,7 +232,6 @@ class App extends Component {
     const newDataPointsObj = { data_points: [...this.state.dataPoints.data_points] };
     const newDataPoint = { ...this.state.dataPoints.data_points[this.state.intakeHistoryPosition] };
 
-
     switch (item.meal_type) {
       case 'breakfast':
         newDataPoint.breakfastCalories += item.total_calories;
@@ -293,17 +287,13 @@ class App extends Component {
     }
   }
 
-  // TODO remove mock Data
-  mockData = mockSearchData;
-  detailsData = detailsData;
-
   render() {
     const { width } = this.state;
-    const isMobile = width <= 768;
+    const isMobile = width < 768;
     if (isMobile) {
       return (
         <ThemeProvider theme={theme}>
-          <div className="App">
+          <div className="App Mobile">
             <header className="header">
               <Search onSearch={this.handleSearch} focused={this.state.searchFocused} />
               <UserDetails />
@@ -355,7 +345,7 @@ class App extends Component {
     } else {
       return (
         <ThemeProvider theme={theme}>
-          <div className="App">
+          <div className="App Desktop">
             <header className="header">
               <Search onSearch={this.handleSearch} focused={this.state.searchFocused} />
               <nav>

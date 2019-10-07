@@ -1,0 +1,427 @@
+/* mobile  css */
+/* all phones  */
+
+.header {
+  height: 144px;
+  background-color: var(--blue-violet);
+  padding: 8px;
+  box-sizing: border-box;
+}
+
+.header__search-bar {
+  position: relative;
+  z-index: 50000;
+  width: 100%;
+  height: 48px;
+  background-color: #ffffff;
+  border-radius: 3px;
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+}
+
+.search-bar-icon {
+  padding: 10px;
+}
+
+.MuiSvgIcon-root {
+  width: 24px !important;
+  height: 24px !important;
+}
+.search-bar-input {
+  width: 14.75rem;
+  font-weight: 500;
+  font-style: normal;
+  font-stretch: normal;
+  line-height: 1.5;
+  letter-spacing: 0.15px;
+  color: rgba(0, 0, 0, 0.87);
+}
+
+.search-results {
+  position: fixed;
+  z-index: 2;
+  top: 0;
+  left: 0;
+  background-color: rgba(0, 0, 0, 0.5);
+  border: none;
+  width: calc(100vw - 16px);
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  padding: 8px;
+  padding-top: 50px;
+}
+
+.closeSearchResultsIcon-device {
+  display: flex;
+}
+
+.closeSearchResultsIcon-desktop {
+  display: none;
+}
+
+.search-results__content {
+  width: 100%;
+  border-radius: 3px;
+  max-height: 87%;
+  overflow: scroll;
+  margin-top: 15px;
+  box-shadow: 0 2px 4px -1px rgba(0, 0, 0, 0.2), 0 1px 10px 0 rgba(0, 0, 0, 0.12), 0 4px 5px 0 rgba(0, 0, 0, 0.14);
+}
+
+.category-title {
+  font-size: 12px;
+  font-weight: 500;
+  font-style: normal;
+  font-stretch: normal;
+  line-height: 1.33;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: #00000099;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.search-result__item {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 72px;
+  font-size: 16px;
+  font-weight: 500;
+  line-height: 1.5;
+  letter-spacing: 0.15px;
+  color: #000000de;
+}
+
+/* active event give ui a little adjustment */
+.search-result__item:active {
+  background-color: rgba(61, 61, 61, 0.123);
+  border: var(--border-style);
+}
+
+.search-result__item-image {
+  flex: 1;
+  max-width: 72px;
+  height: 72px;
+  display: grid;
+  place-items: center;
+  padding-right: 10px;
+}
+
+.search-result__item-image > img {
+  width: 40px;
+  height: 40px;
+  border-radius: 4px;
+}
+
+.search-result__item-name {
+  flex: 2;
+  height: 72px;
+  display: flex;
+  flex-flow: column;
+  justify-content: center;
+  border-bottom: var(--border-style);
+  text-transform: capitalize;
+}
+
+.search-result__item-name > span {
+  padding-bottom: 5px;
+}
+/* probably a better way to do this */
+/* custom borders for last item in each cat */
+.search-result__category > div:last-child,
+.search-result__category > div:last-child .search-result__item-name {
+  border-bottom: var(--border-style);
+}
+
+/* last cat last item has no border */
+/* probably a better way to do this */
+.search-results__content:last-child > .search-result__category > div:last-child,
+.search-results__content:last-child > .search-result__category > div:last-child .search-result__item-name {
+  /* border: none; */
+}
+
+.add-item-modal {
+  width: calc(100vw - 16px);
+  display: flex;
+  flex-flow: column;
+  justify-content: flex-start;
+  align-items: center;
+  background-color: #fafafa;
+  border-radius: 5px;
+  border: none;
+  height: auto;
+  color: inherit;
+}
+
+.add-item-modal__row {
+  margin: 15px;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  border-bottom: var(--border-style);
+}
+
+.add-item-modal__row:last-child {
+  border: none;
+}
+
+.modal__content {
+  width: 100%;
+}
+
+.modal__content > div > button {
+  margin-top: 20px;
+}
+
+.calculated-weight .large-text,
+.calculated-calories .large-text {
+  font-size: 24px;
+  font-weight: normal;
+  font-style: normal;
+  font-stretch: normal;
+  line-height: normal;
+  letter-spacing: normal;
+  text-align: right;
+  color: #000000de;
+  display: block;
+}
+
+.MuiInputBase-root {
+  width: calc(100vw - 46px) !important;
+  font-size: 14px !important;
+  font-weight: 500 !important;
+  font-style: normal !important;
+  font-stretch: normal !important;
+  line-height: 1.14 !important;
+  letter-spacing: 1.25px !important;
+  text-align: center !important;
+  color: #ffffff !important;
+}
+
+.modal {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.modal__row-item > img {
+  width: 64px;
+  height: 64px;
+}
+
+.modal__row-item .item-name {
+  font-size: 24px;
+  font-weight: normal;
+  font-style: normal;
+  font-stretch: normal;
+  line-height: normal;
+  letter-spacing: normal;
+  color: #000000de;
+  text-transform: capitalize;
+}
+
+.last-child {
+  flex-wrap: wrap;
+  justify-content: flex-end;
+}
+
+.user {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  margin-top: 15px;
+}
+
+.user > div > h2 {
+  margin: 0;
+}
+
+.user .user__avatar {
+  width: 56px;
+  height: 56px;
+  display: grid;
+  place-items: center;
+  background-color: dodgerblue;
+  background-image: url('../images/avatar.png');
+  background-position: center;
+  background-size: cover;
+  border-radius: 28px;
+}
+
+.user .user__name {
+  flex: 2;
+  font-size: 20px;
+  color: white;
+  padding-left: 15px;
+}
+
+.user .user__name .surname {
+  display: none;
+}
+
+.user .user__weight,
+.user .user__height {
+  display: flex;
+  flex-flow: column;
+  justify-content: center;
+  width: 56px;
+  height: 56px;
+  text-align: center;
+  background-color: var(--black-50);
+  border-radius: 28px;
+  color: white;
+  font-size: 12px;
+}
+
+.user .user__weight {
+  position: relative;
+  right: 15px;
+}
+
+.paginator {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-top: 20px;
+  margin-bottom: 24px;
+  padding-left: 10px;
+  padding-right: 10px;
+}
+
+.paginator__current {
+  font-family: Roboto;
+  font-size: 20px;
+  font-weight: 500;
+  letter-spacing: 0.25px;
+  color: #000000de;
+}
+
+.paginator__previous > svg,
+.paginator__next > svg {
+  color: var(--blue-violet);
+  font-size: 24px;
+}
+
+.calories {
+  padding-bottom: 15px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.calories__consumed .data,
+.calories__goal .data {
+  font-family: Roboto;
+  font-size: 24px;
+  font-weight: normal;
+  font-style: normal;
+  font-stretch: normal;
+  line-height: normal;
+  letter-spacing: normal;
+  color: #000000de;
+}
+
+.calories__goal {
+  text-align: right;
+}
+
+.meal-periods {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 25px;
+  padding-bottom: 15px;
+}
+
+.meal-periods .meal-period {
+  flex: 1;
+  text-align: center;
+  text-transform: capitalize;
+  letter-spacing: 0.25px;
+  font-weight: 500;
+  font-size: 20px;
+}
+
+.foodlist__item {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 72px;
+}
+
+.foodlist__item-image {
+  max-width: 72px;
+  display: grid;
+  place-items: center;
+}
+
+.foodlist__item-image > img {
+  width: 40px;
+  height: 40px;
+  border-radius: 5px;
+}
+
+.foodlist__item > * {
+  height: 72px;
+  display: flex;
+  flex: 1;
+  flex-flow: column;
+  justify-content: center;
+  font-size: 1rem;
+  font-weight: 500;
+}
+
+.foodlist__item > .foodlist__item-name {
+  flex: 2;
+  border-bottom: var(--border-style);
+  text-transform: capitalize;
+}
+
+.foodlist__item > .foodlist__item-name > small {
+  text-transform: lowercase;
+}
+
+.foodlist__item-info {
+  align-items: flex-end;
+  padding-right: 15px;
+  border-bottom: var(--border-style);
+}
+
+.foodlist__item-name > span,
+.foodlist__item-info > span {
+  padding-bottom: 5px;
+}
+
+/* iphone 6/7/8 Plus */
+@media (min-width: 375px) {
+  .search-results__content {
+    max-height: 90%;
+  }
+}
+
+/* iphone X */
+@media (max-width: 375px) and (min-height: 812px) {
+  .search-results__content {
+    max-height: 91%;
+  }
+}
+
+/* iphone 6/7/8  */
+@media (max-width: 375px) and (max-height: 667px) {
+  .search-results__content {
+    max-height: 89%;
+  }
+}
+
+/* iphone 6/7/8  */
+@media (max-width: 320px) and (min-height: 568px) {
+  .search-results__content {
+    max-height: 87%;
+  }
+}
