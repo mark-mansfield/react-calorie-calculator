@@ -38,7 +38,7 @@ class App extends Component {
       searchResults: [],
       searchResultsCommon: [],
       searchResultsBranded: [],
-      searchTerm: '',
+      searchTerm: true,
       dailyGoal: 1500,
       dailyIntake: [],
       dataPoints: DataPoints,
@@ -144,14 +144,17 @@ class App extends Component {
 
   // prevents call to server every for every char entered in search bar.
   handleSearch = debounce(text => {
+    this.setState({ searchTerm: true });
     axios.get(`https://trackapi.nutritionix.com/v2/search/instant?query=` + text, this.custom_headers).then(res => {
       if (res.data.common.length === 0 && res.data.branded.length === 0) {
         alert('your search yielded no results');
+        this.setState({ searchTerm: false });
       } else {
         this.setState({
           searchResultsCommon: res.data.common,
           searchResultsBranded: res.data.branded,
-          hasSearchResults: true
+          hasSearchResults: true,
+          searchTerm: false
         });
       }
     });

@@ -1,9 +1,12 @@
 import React, { PureComponent } from 'react';
 import Icon from '@material-ui/icons/Search';
-
 class Search extends PureComponent {
   constructor(props) {
     super(props);
+    this.state = {
+      searchTerm: this.props.searchTerm,
+      defaultValue: ''
+    };
     this.textInput = React.createRef();
   }
 
@@ -16,6 +19,8 @@ class Search extends PureComponent {
   }
 
   componentWillReceiveProps(props) {
+    console.log('Search component updated:');
+    this.textInput.current.value = null;
     if (props.focused) {
       this.textInput.current.focus();
     }
@@ -38,7 +43,6 @@ class Search extends PureComponent {
           <input
             ref={this.textInput}
             className="search-bar-input"
-            type="text"
             placeholder="Search foods..."
             onChange={this.handleChange.bind(this)}
           ></input>
