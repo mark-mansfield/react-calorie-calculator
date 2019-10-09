@@ -141,6 +141,7 @@ class App extends Component {
       hasSearchResults: true
     });
   };
+
   // prevents call to server every for every char entered in search bar.
   handleSearch = debounce(text => {
     axios.get(`https://trackapi.nutritionix.com/v2/search/instant?query=` + text, this.custom_headers).then(res => {
@@ -154,7 +155,7 @@ class App extends Component {
         });
       }
     });
-  }, 100);
+  }, 1000);
 
   openSearchDetails = (food_name, id = null) => {
     switch (id) {
